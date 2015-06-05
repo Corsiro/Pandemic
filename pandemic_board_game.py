@@ -518,6 +518,8 @@ def end_of_turn():
         check_player_loc()
         check_eradication()
         current_hand = range(0)
+        print current_player
+        print player_hands
         current_hand = player_hands[current_player]
         player = range(0)
         player = players[current_player]
@@ -638,14 +640,15 @@ def check_neighbors(city_num):
     global neighbors
     global city_board
     neighbors = range(0)
-    neighbors = city_board[city_num]
+    city = range(0)
+    city = city_board[city_num]
     #take out the first 8 elements
-    print neighbors
     i = 8
-    while i > 0:
-        neighbors.pop(0)
-        i -= 1
-    return neighbors
+    while i < len(city):
+        neighbors.append(city[i])
+        i += 1
+    print neighbors
+    return neighbors, city_board
 
 def ferry():
     global players
@@ -669,10 +672,9 @@ def ferry():
         player[0] = dest_city_num
         players[current_player] = player
         check_player_loc()
-        neighbors = range(0)
     else:
         print "not a valid move"
-        neighbors = range(0)
+    neighbors = range(0)
     return players, neighbors
     
 def charter():
