@@ -1307,3 +1307,5 @@ def city_num2color(city_num):
     return city_color
 
 setup()
+
+## Test revision control in GitHub, Jing edit
