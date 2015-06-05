@@ -1,6 +1,6 @@
 #pandemic
-#things to work on: use list, sets or dict?; setup classes
-#inputs not returning correctly
+#things to work on: use list, sets or dict?; setup classes, separate into different files, etc...
+#player_hands and other variables not updating correctly?
 #importing modules used
 import math
 import random
