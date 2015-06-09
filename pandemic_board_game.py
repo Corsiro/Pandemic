@@ -1308,4 +1308,4 @@ def city_num2color(city_num):
 
 setup()
 
-## Test revision control in GitHub, Jing edit
+## Direct clone and push test by Jing
