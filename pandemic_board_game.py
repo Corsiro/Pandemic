@@ -45,9 +45,7 @@ def setup():
 #player setup, sets up each player with location, role, and number of actions. (role 11 reserved for generalist for now)
 def player_setup():
     #global variables/arrays used
-    global num_players
-    global player_roles
-    global players
+    global num_players, player_roles, players
     while num_players not in [2, 3, 4]:
         num_players = int(input('how many players (2 - 4): '))
     i = 0
@@ -69,7 +67,8 @@ def player_setup():
             i += 1
     return player_roles, players, num_players
 
-#city board setup, fills the board array with info array of each city              
+#city board setup, fills the board array with info array of each city
+#this should probably be a dict
 def board_setup():
     #each one is an array
     #[name, colour, research station, already outbroke this turn
@@ -278,8 +277,7 @@ def board_setup():
     
 #sets number of epidemics based on preset number
 def epidemic_setup():
-    global num_epidemic
-    global epi_deck
+    global num_epidemic, epi_deck
     num_epidemic = None
     while num_epidemic not in [4,5,6]:
         num_epidemic = int(input('how many epidemics (4, 5, or 6): '))
@@ -291,9 +289,7 @@ def epidemic_setup():
 #player deck and hand setup
 def player_deck_setup():
     #global variables/arrays
-    global player_deck
-    global player_hands
-    global num_players
+    global player_deck, player_hands, num_players
     #special_deck_cards puts 2 cards per player into the player deck 
     special_deck_total = range(48,65)
     random.shuffle(special_deck_total)
@@ -345,8 +341,7 @@ def player_deck_setup():
 #add epidemic, shuffle and recombine
 def player_deck_shuffle():
     #global elements
-    global epi_deck
-    global player_deck
+    global epi_deck, player_deck
     #creates an array of x number of piles of cards from the player deck based on number of epidemics chosen
     #this so far only works with even numbers as far as i can tell, need to fix / think about more
     pile = range(0,len(epi_deck))
@@ -375,8 +370,7 @@ def player_deck_shuffle():
 
 #infect +1 to a city, with the given color        
 def inf_1(number, color):
-    global city_board
-    global disease_state    
+    global city_board, disease_state    
     city_inc = range(0)
     city_inc = city_board[number]
     inf_color = None
@@ -414,8 +408,7 @@ def inf_1(number, color):
 
 #Outbreak             
 def outbreak(number):
-    global ob_counter
-    global city_board
+    global ob_counter, city_board
     city_check = range(0)
     ob_counter += 1
     if ob_counter == 8:
@@ -437,9 +430,7 @@ def outbreak(number):
 #and 1 cube for the 3 after
 #keeps track of changes in infection deck and discard pile
 def inf_setup():
-    global inf_deck
-    global inf_discard
-    global city_board
+    global inf_deck, inf_discard, city_board
     current_city = range(0)
     i = 7
     while i > 0:
@@ -471,11 +462,7 @@ def inf_setup():
 #takes bottom card - add 3 to city, card to discard
 #shuffle discard pile, replace on top of inf deck
 def epidemic():
-    global inf_deck
-    global inf_discard
-    global inf_rate_count
-    global inf_rate_list
-    global city_board
+    global inf_deck, inf_discard, inf_rate_count, inf_rate_list, city_board
     current_city = range(0)
     #reverses the deck to take the bottom card
     inf_deck.reverse()
@@ -506,13 +493,7 @@ def epidemic():
 
 #things that happen at the end of a player's turn
 def end_of_turn():
-    global current_player
-    global player_hands
-    global player_deck
-    global player_discard
-    global city_board
-    global players
-    global win_condition_met
+    global current_player, player_hands, player_deck, player_discard, city_board, players, win_condition_met 
     check_win_condition_met()
     if win_condition_met == False:
         check_player_loc()
@@ -567,8 +548,7 @@ def check_eradication():
     return disease_state
     
 def check_win_condition_met():
-    global disease_state
-    global win_condition_met
+    global disease_state, win_condition_met
     i = 0
     while i < 4:
         state = disease_state[i]
@@ -580,9 +560,7 @@ def check_win_condition_met():
     
 #how to discard a card, not finished, just placeholder code    
 def discard():
-    global player_hands
-    global current_player
-    global player_discard
+    global player_hands, current_player, player_discard
     current_hand = range(0)
     current_hand = player_hands[current_player]
     city = None
@@ -597,9 +575,7 @@ def discard():
 
 #what happens during the infection phase at the end of turn
 def inf_phase():
-    global inf_rate
-    global inf_deck
-    global inf_discard
+    global inf_rate, inf_deck, inf_discard
     i = inf_rate
     while i != 0:
         inf_1(inf_deck[0], city_board[inf_deck[0]])
@@ -610,10 +586,7 @@ def inf_phase():
     
 #player actions below
 def check_player_loc():
-    global players
-    global city_board
-    global disease_state
-    global num_players
+    global players, city_board, disease_state, num_players
     j = 0
     while j < num_players:
         player = range(0)
@@ -637,8 +610,7 @@ def check_player_loc():
 
 #neighbors of the city
 def check_neighbors(city_num):
-    global neighbors
-    global city_board
+    global neighbors, city_board
     neighbors = range(0)
     city = range(0)
     city = city_board[city_num]
@@ -651,12 +623,7 @@ def check_neighbors(city_num):
     return neighbors, city_board
 
 def ferry():
-    global players
-    global current_player
-    global city_board
-    global disease_state
-    global city_list
-    global neighbors
+    global players, current_player, city_board, disease_state, city_list, neighbors
     dest_city = None
     while dest_city not in city_list:
         dest_city = str(input('Which city would you like to go to (enter name): '))
@@ -678,12 +645,7 @@ def ferry():
     return players, neighbors
     
 def charter():
-    global players
-    global current_player
-    global player_hands
-    global city_board
-    global player_discard
-    global city_list
+    global players, current_player, player_hands, city_board, player_discard, city_list
     dest_city = None
     while dest_city not in city_list:
         dest_city = str(input('Which city would you like to go to (enter name): '))
@@ -709,12 +671,7 @@ def charter():
     
 def direct():
     #does the player have the card with the destination city in hand? 
-    global players
-    global current_player
-    global player_hands
-    global city_board
-    global player_discard
-    global city_list
+    global players, current_player, player_hands, city_board, player_discard, city_list
     dest_city = None
     while dest_city not in city_list:
         dest_city = str(input('Which city would you like to go to (enter name): '))
@@ -737,10 +694,7 @@ def direct():
     return players, player_hands, player_discard
     
 def shuttle():
-    global players
-    global current_player
-    global city_board
-    global city_list
+    global players, current_player, city_board, city_list
     player = players[current_player]
     while dest_city not in city_list:
         dest_city = str(input('Which city would you like to go to (enter name): '))
@@ -765,14 +719,7 @@ def shuttle():
     return players
         
 def build():
-    global current_player
-    global players
-    global current_player
-    global city_board
-    global research_stations
-    global player_hands
-    global player_discard
-    global city_list
+    global current_player, players, current_player, city_board, research_stations, player_hands, player_discard, city_list
     build_city = None
     while build_city not in city_list:
         build_city = str(input('Which city would you like to build a research station (enter name): '))
@@ -859,11 +806,7 @@ def build():
     return player_hands, city_board, players, player_discard
         
 def treat_1():
-    global disease_state
-    global city_board
-    global players
-    global current_player
-    global city_list
+    global disease_state, city_board, players, current_player, city_list
     player = range(0)
     player = players[current_player]
     color_list = ["yellow", "black", "blue", "red"]
@@ -918,11 +861,7 @@ def treat_1():
     return players, city_board, disease_state
     
 def give_card():
-    global players
-    global city_board
-    global player_hands
-    global city_list
-    global current_player
+    global players, city_board, player_hands, city_list, current_player
     city = None
     to_player = None
     while to_player < 0 or to_player > num_players or city not in city_list or from_player == current_player:
@@ -972,11 +911,7 @@ def give_card():
     return player_hands
         
 def take_card():
-    global players
-    global city_board
-    global player_hands
-    global city_list
-    global current_player
+    global players, city_board, player_hands, city_list, current_player
     city = None
     from_player = None
     while from_player < 0 or from_player > num_players or city not in city_list or from_player == current_player:
@@ -1026,11 +961,7 @@ def take_card():
     return player_hands
     
 def find_cure():
-    global current_player
-    global players
-    global city_board
-    global player_hands
-    global disease_state
+    global current_player, players, city_board, player_hands, disease_state
     cure_color = None
     cure_color_num = None
     cured = None
@@ -1143,13 +1074,7 @@ def find_cure():
     return players, player_hands, disease_state, player_discard
         
 def move():
-    global players
-    global city_board
-    global current_player
-    global num_players
-    global city_list
-    global player_hands
-    global player_discard
+    global players, city_board, current_player, num_players, city_list, player_hands, player_discard
     dest_city = None
     move_player = None
     while dest_city not in city_list or move_player < 0 or move_player > num_players - 1:
@@ -1233,8 +1158,7 @@ def move():
 
 #start a player's turn	
 def player_turn(curr_player):
-    global players
-    global current_player
+    global players, current_player
     current_player = curr_player
     player = players[current_player]
     action = None
@@ -1276,8 +1200,7 @@ def player_turn(curr_player):
     return players, current_player
     
 def city_list_setup():
-    global city_list
-    global city_board
+    global city_list, city_board
     i = 0
     while i < 48:
         city = range(0)
@@ -1287,8 +1210,7 @@ def city_list_setup():
     return city_list
     
 def city2num(city):
-    global city_list
-    global city_num
+    global city_list, city_num
     city_num = city_list.index(city)
     return city_num
     
